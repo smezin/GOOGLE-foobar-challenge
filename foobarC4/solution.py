@@ -1,4 +1,3 @@
-from distutils.log import ERROR
 from itertools import permutations
 
 def solution (times, time_limit):
@@ -15,9 +14,8 @@ def solution (times, time_limit):
     n_bunnies = len(times) - 2
     bunnies = [bunny for bunny in range(1, n_bunnies+1)]
     distances = bellman_ford(times)
-    if update_distance(distances, distances[0], break_on_update=True) == NEG_PATH_DETECTED:
-        print('neg')
-        return list(range(n_bunnies))
+    if negative_cycles(distances):
+        return range(n_bunnies)
     for i in range (n_bunnies, 0, -1):
         for perm in all_perms(bunnies, i):
             # i goes from longest paths to shortest
@@ -55,31 +53,25 @@ def find_distance(graph, source):
     n = len(graph)
     distance = [float('inf')] * n       #Initialize the distance to all vertices to infinity
     distance[source] = 0                #The distance from the source to itself is, of course, zero
-    #for i in range(n):
-    distance = update_distance(graph, distance)
-    
+    #lay back and RELAX
+    for i in range(n):
+        for u in range(n):
+            for v in range(n):
+                weight = graph[u][v]
+                if distance[u] + weight < distance[v]:
+                    distance[v] = distance[u] + weight
     return distance
 
-# def negative_cycles(graph):
-#     distance = graph[0] #starting row
-#     n = len(graph)
-#     for u in range(n):
-#         for v in range(n):
-#             weight = graph[u][v]
-#             if distance[u] + weight < distance[v]:
-#                 return True
-#     return False
-
-def update_distance(graph, distance, break_on_update=False):
+def negative_cycles(graph):
+    distance = graph[0] #starting row
     n = len(graph)
     for u in range(n):
         for v in range(n):
             weight = graph[u][v]
             if distance[u] + weight < distance[v]:
-                distance[v] = distance[u] + weight
-                if (break_on_update):
-                    return NEG_PATH_DETECTED
-    return distance
+                return True
+    return False
+
 
 def all_perms(iterable, r=None):
     pool = tuple(iterable)
@@ -104,9 +96,5 @@ def all_perms(iterable, r=None):
         else:
             return
 
-NEG_PATH_DETECTED = 'negative path detected'
-
-
 print(solution([[0, 2, 2, 2, -1], [9, 0, 2, 2, -1], [9, 3, 0, 2, -1], [9, 3, 2, 0, -1], [9, 3, 2, 2, 0]], 1))
 print(solution([[0, 1, 1, 1, 1], [1, 0, 1, 1, 1], [1, 1, 0, 1, 1], [1, 1, 1, 0, 1], [1, 1, 1, 1, 0]], 3))
-print(solution([[0, -11, 1, 1, 1], [1, 0, 1, 1, 1], [1, 1, 0, 1, 1], [1, 1, 1, 0, 1], [1, 1, 1, 1, 0]], 3))
