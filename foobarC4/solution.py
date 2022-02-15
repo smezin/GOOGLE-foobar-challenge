@@ -36,14 +36,6 @@ def get_path_time(bunnies, graph):
     return time
 
 def bellman_ford(graph):
-    """
-    the algorithm initializes the distance to the source to 0 and all other nodes to infinity. 
-    Then for all edges, if the distance to the destination can be shortened by taking the edge, 
-    the distance is updated to the new lower value. At each iteration i that the edges are scanned, 
-    the algorithm finds all shortest paths of at most length i edges (and possibly some paths longer than i edges). 
-    Since the longest possible path without a cycle can as many edges as the graph size as represented as adjacency matrix, 
-    the edges must be scanned graph len times to ensure the shortest path has been found for all nodes
-    """
     distances = []
     for vertex in range(len(graph)):
         distances.append(find_distance(graph, vertex))
