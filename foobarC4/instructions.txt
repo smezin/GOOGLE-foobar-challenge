@@ -39,7 +39,8 @@ For instance, in the case of
   [9, 3, 2, 0, -1],  # 3 = Bunny 2
   [9, 3, 2, 2,  0],  # 4 = Bulkhead
 ]
-and a time limit of 1, the five inner array rows designate the starting point, bunny 0, bunny 1, bunny 2, and the bulkhead door exit respectively. You could take the path:
+and a time limit of 1, the five inner array rows designate the starting point, bunny 0, bunny 1, bunny 2, and the bulkhead door exit respectively. 
+You could take the path:
 
 Start End Delta Time Status
     -   0     -    1 Bulkhead initially open
