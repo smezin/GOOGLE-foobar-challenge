@@ -17,7 +17,6 @@ def reducer (n):
     operations = 0
     while pellets != 1:                         #handling *0
         if pellets%2 == 0:
-            
             pellets = pellets>>1
         elif pellets != 3 and pellets%4 == 3:   #handling 11, excluding edge case n==3 
             pellets += 1
